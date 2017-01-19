@@ -52,8 +52,10 @@ namespace DataStructures
 		void Compress( const char *file, unsigned int line );
 		bool Find ( const queue_type& q );
 		void ClearAndForceAllocation( int size, const char *file, unsigned int line ); // Force a memory allocation to a certain larger size
-
+		void Swap(Queue<queue_type>& input);
 	private:
+		template<typename _type>
+		void swap(_type& v1, _type& v2);
 		queue_type* array;
 		unsigned int head;  // Array index for the head of the queue
 		unsigned int tail; // Array index for the tail of the queue
@@ -319,7 +321,6 @@ namespace DataStructures
 
 			allocation_size = original_copy.Size() + 1;
 		}
-
 		return true;
 	}
 
@@ -395,6 +396,15 @@ namespace DataStructures
 		allocation_size = size;
 		head = 0;
 		tail = 0;
+	}
+
+	template <class queue_type>
+	void Queue<queue_type>::Swap(Queue<queue_type>& input)
+	{
+		this->swap<queue_type*>(input.array, array);
+		this->swap<unsigned int>(head, input.head);
+		this->swap<unsigned int>(tail, input.tail);
+		this->swap<unsigned int>(allocation_size, input.allocation_size);
 	}
 
 	template <class queue_type>
